@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"/>
+  <title>Google Drive - LocalShare</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+<body>
+  <div class="drive-app">
+    <!-- Top Google Drive Navigation Bar -->
+    <header class="drive-topbar">
+      <div class="topbar-left">
+        <button id="btnToggleSidebar" class="btn-sidebar-toggle" aria-label="Toggle navigation menu" title="Main menu">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </button>
+        <div class="drive-logo-wrap" id="btnLogoHome" title="Google Drive">
+          <!-- Official Google Drive Tri-color Triangle SVG -->
+          <svg class="drive-logo-svg" viewBox="0 0 87.3 78" width="40" height="36">
+            <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+            <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/>
+            <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+            <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.25z" fill="#00832d"/>
+            <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+            <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+          </svg>
+          <span class="drive-brand-text">Drive</span>
+        </div>
+      </div>
+
+      <!-- Center Search Bar (Google Drive Style) -->
+      <div class="topbar-center">
+        <div class="drive-search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search in Drive" autocomplete="off"/>
+          <button id="btnClearSearch" class="btn-clear-search hidden" title="Clear search">✕</button>
+        </div>
+      </div>
+
+      <!-- Topbar Right Profile & Logout -->
+      <div class="topbar-right">
+        <div class="user-profile-badge" id="userBadge" title="Account">
+          <span class="avatar-initial" id="avatarInitial">U</span>
+          <span class="user-name-text" id="userName">User</span>
+        </div>
+        <button id="btnLogout" class="btn-drive-logout" title="Sign out">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- App Body (Sidebar + Content) -->
+    <div class="drive-body">
+      <!-- Backdrop for mobile drawer -->
+      <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+      <!-- Left Sidebar -->
+      <aside class="drive-sidebar" id="driveSidebar">
+        <!-- Mobile Drawer Top Bar -->
+        <div class="sidebar-mobile-header">
+          <div class="sidebar-mobile-title">
+            <svg class="drive-logo-svg" viewBox="0 0 87.3 78" width="30" height="27">
+              <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+              <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/>
+              <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+              <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.25z" fill="#00832d"/>
+              <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+              <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+            </svg>
+            <span class="drive-brand-text">Drive</span>
+          </div>
+          <button id="btnCloseSidebar" class="btn-sidebar-close" aria-label="Close menu" title="Close">✕</button>
+        </div>
+
+        <!-- Google New Button (Replica Pill) -->
+        <div class="new-btn-wrap">
+          <div class="drive-new-btn" id="sidebarNewBtn" title="Local Drive Ready">
+            <svg viewBox="0 0 36 36" width="28" height="28">
+              <path fill="#4285F4" d="M16 16v14h4V20z"/>
+              <path fill="#34A853" d="M30 16H20l-4 4h14z"/>
+              <path fill="#FBBC05" d="M6 16h10l4-4H6z"/>
+              <path fill="#EA4335" d="M20 16V6h-4v10z"/>
+              <path fill="none" d="M0 0h36v36H0z"/>
+            </svg>
+            <span>LocalShare</span>
+          </div>
+        </div>
+
+        <!-- Sidebar Navigation Items -->
+        <nav class="drive-nav">
+          <a href="#/folders/root" class="nav-item active" id="navMyDrive">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M19 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zM6 16h12v2H6zm0-4h12v2H6zm0-4h12v2H6z"/>
+            </svg>
+            <span>My Drive</span>
+          </a>
+          <a href="#/folders/root" class="nav-item" id="navShared">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+            <span>Shared with me</span>
+          </a>
+          <div class="nav-divider"></div>
+        </nav>
+
+        <!-- Bottom Local Network Status -->
+        <div class="sidebar-storage-box">
+          <div class="storage-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="#5f6368">
+              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/>
+            </svg>
+            <span>Direct Wi-Fi Link</span>
+          </div>
+          <div class="storage-meter">
+            <div class="storage-meter-fill"></div>
+          </div>
+          <div class="storage-caption">High-Speed Local Transfer</div>
+        </div>
+      </aside>
+
+      <!-- Main Workspace -->
+      <main class="drive-main">
+        <!-- Main Breadcrumbs & Action Toolbar -->
+        <div class="drive-main-header">
+          <div class="drive-breadcrumbs" id="breadcrumbsContainer">
+            <!-- Dynamically populated breadcrumb chips -->
+          </div>
+
+          <!-- Toolbar actions (View switcher, Refresh) -->
+          <div class="drive-actions-toolbar">
+            <button id="btnViewToggle" class="drive-tool-btn" title="Toggle List/Grid View">
+              <svg id="iconGridView" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/>
+              </svg>
+              <svg id="iconListView" class="hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/>
+              </svg>
+            </button>
+            <button id="btnRefresh" class="drive-tool-btn" title="Refresh files">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable Content View (Folders + Files) -->
+        <div class="drive-content-scroll" id="contentScroll">
+          <!-- Section 1: Folders -->
+          <section id="foldersSection" class="content-section hidden">
+            <h2 class="section-title">Folders</h2>
+            <div id="foldersGrid" class="folders-grid"></div>
+          </section>
+
+          <!-- Section 2: Files -->
+          <section id="filesSection" class="content-section hidden">
+            <h2 class="section-title" id="filesSectionTitle">Files</h2>
+            
+            <!-- Grid View for Files -->
+            <div id="filesGrid" class="files-grid"></div>
+
+            <!-- List View for Files (Table) -->
+            <div id="filesTableWrap" class="files-table-wrap hidden">
+              <table class="drive-table">
+                <thead>
+                  <tr>
+                    <th class="th-name">Name</th>
+                    <th class="th-size">Size</th>
+                    <th class="th-type">Type</th>
+                    <th class="th-date">Modified</th>
+                    <th class="th-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="filesTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Empty State (Google Drive Style) -->
+          <div id="emptyState" class="drive-empty-state hidden">
+            <div class="empty-illustration">
+              <svg viewBox="0 0 160 140" width="160" height="140">
+                <path d="M40 30h80v80H40z" fill="#f0f4f9" rx="8"/>
+                <path d="M60 50h40v6H60zm0 14h40v6H60zm0 14h25v6H60z" fill="#c3c7cc"/>
+                <circle cx="80" cy="95" r="14" fill="#e0e4e8"/>
+                <path d="M80 88v14m-7-7h14" stroke="#70757a" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 id="emptyTitle">This folder is empty</h3>
+            <p id="emptyDesc">No files or folders found here.</p>
+          </div>
+
+          <!-- Pending Approval Alert -->
+          <div id="approvalNotice" class="approval-notice hidden">
+            <div class="notice-icon">⏳</div>
+            <div class="notice-content">
+              <h3>Waiting for Owner Approval</h3>
+              <p>Your access request has been sent to the Android app owner. Once approved, all shared folders and files will appear here automatically.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Google Drive File Preview Modal (Fullscreen Overlay) -->
+    <div id="previewModal" class="preview-modal hidden">
+      <div class="modal-topbar">
+        <div class="modal-topbar-left">
+          <button id="btnCloseModal" class="modal-btn-icon" title="Close (Esc)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="white">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+          <div class="modal-file-info">
+            <span class="modal-file-icon" id="modalFileIcon">📄</span>
+            <span class="modal-file-name" id="modalFileName">file.ext</span>
+            <span class="modal-file-size" id="modalFileSize">0 KB</span>
+          </div>
+        </div>
+        <div class="modal-topbar-right">
+          <a id="modalDownloadBtn" class="modal-btn-download" href="#" download>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+            </svg>
+            <span>Download</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Preview Body Container -->
+      <div class="modal-preview-body" id="modalPreviewBody">
+        <!-- Rendered dynamically (Image, Video, Audio, PDF, Code/Text, or Generic) -->
+      </div>
+    </div>
+
+    <!-- Google Drive Resumable Chunk Download Drawer -->
+    <div id="downloadDrawer" class="download-drawer hidden">
+      <div class="drawer-header">
+        <div class="drawer-title-wrap">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="#0b57d0">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+          </svg>
+          <span id="drawerFileName" class="drawer-file-name">Downloading...</span>
+        </div>
+        <button id="btnCloseDrawer" class="drawer-btn-icon" title="Close">✕</button>
+      </div>
+      <div class="drawer-body" id="drawerBody">
+        <div class="download-progress-track">
+          <div id="downloadProgressBar" class="download-progress-bar"></div>
+        </div>
+        <div class="download-stats-row">
+          <span id="downloadStatsText">0 MB / 0 MB (0%)</span>
+          <span id="downloadSpeedText">0 MB/s</span>
+        </div>
+        <div class="download-controls-row">
+          <button id="btnPauseResumeDownload" class="btn-drawer-action" title="Pause / Resume">
+            <span id="pauseResumeIcon">⏸</span>
+            <span id="pauseResumeLabel">Pause</span>
+          </button>
+          <button id="btnRestartDownload" class="btn-drawer-action" title="Restart">
+            <span>🔄</span>
+            <span>Restart</span>
+          </button>
+          <button id="btnCancelDownload" class="btn-drawer-action danger" title="Stop">
+            <span>⏹</span>
+            <span>Stop</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

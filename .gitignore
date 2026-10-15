@@ -78,6 +78,3 @@ app/release/output.json
 
 
 *.java
-*.html
-*.css
-*.js 
