@@ -63,4 +63,9 @@ public class SessionDao {
         this.helper.getWritableDatabase().delete("sessions", "id=?", new String[]{idHash});
     }
 
+    public void updateLastSeen(String idHash, long now) {
+        ContentValues cv = new ContentValues();
+        cv.put("last_seen", Long.valueOf(now));
+        this.helper.getWritableDatabase().update("sessions", cv, "id=?", new String[]{idHash});
+    }
 }
