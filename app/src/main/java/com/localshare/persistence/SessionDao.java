@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import com.localshare.domain.model.Session;
 
 /* JADX INFO: loaded from: classes3.dex */
+<<<<<<< HEAD
+=======
+
+>>>>>>> ce022c9563fedb5425469e31b3ee0ed00f58d17c
 public class SessionDao {
     private final DbHelper helper;
 
@@ -59,7 +63,11 @@ public class SessionDao {
         }
     }
 
+<<<<<<< HEAD
     public void delete(String idHash) {
+=======
+     public void delete(String idHash) {
+>>>>>>> ce022c9563fedb5425469e31b3ee0ed00f58d17c
         this.helper.getWritableDatabase().delete("sessions", "id=?", new String[]{idHash});
     }
 
@@ -69,7 +77,14 @@ public class SessionDao {
         this.helper.getWritableDatabase().update("sessions", cv, "id=?", new String[]{idHash});
     }
 
+<<<<<<< HEAD
     public void deleteExpired(long now) {
         this.helper.getWritableDatabase().delete("sessions", "expires_at<?", new String[]{String.valueOf(now)});
     }
+=======
+     public void deleteExpired(long now) {
+        this.helper.getWritableDatabase().delete("sessions", "expires_at<?", new String[]{String.valueOf(now)});
+    }
+
+>>>>>>> ce022c9563fedb5425469e31b3ee0ed00f58d17c
 }

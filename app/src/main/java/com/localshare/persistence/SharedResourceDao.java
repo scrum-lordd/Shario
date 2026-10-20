@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* JADX INFO: loaded from: classes3.dex */
+<<<<<<< HEAD
 public class SharedResourceDao {
     private final DbHelper h;
 
@@ -16,6 +17,16 @@ public class SharedResourceDao {
     }
 
     public String insert(String str, String str2, boolean z, String str3) {
+=======
+
+public class SharedResourceDao {
+    private final DbHelper h;
+
+   public SharedResourceDao(DbHelper h) {
+        this.h = h;
+    }
+        public String insert(String str, String str2, boolean z, String str3) {
+>>>>>>> ce022c9563fedb5425469e31b3ee0ed00f58d17c
         String strGenerateOpaqueId = SecureTokenGenerator.generateOpaqueId();
         ContentValues contentValues = new ContentValues();
         contentValues.put("opaque_id", strGenerateOpaqueId);
@@ -28,7 +39,12 @@ public class SharedResourceDao {
         return strGenerateOpaqueId;
     }
 
+<<<<<<< HEAD
     public List<SharedResource> listAll() {
+=======
+
+     public List<SharedResource> listAll() {
+>>>>>>> ce022c9563fedb5425469e31b3ee0ed00f58d17c
         List<SharedResource> list = new ArrayList<>();
         Cursor c = this.h.getReadableDatabase().query("shared_resources", null, null, null, null, null, "added_at DESC");
         while (c.moveToNext()) {
@@ -62,6 +78,10 @@ public class SharedResourceDao {
         return list;
     }
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> ce022c9563fedb5425469e31b3ee0ed00f58d17c
     public void delete(String opaqueId) {
         this.h.getWritableDatabase().delete("shared_resources", "opaque_id=?", new String[]{opaqueId});
         this.h.getWritableDatabase().delete("permissions", "resource_opaque_id=?", new String[]{opaqueId});
