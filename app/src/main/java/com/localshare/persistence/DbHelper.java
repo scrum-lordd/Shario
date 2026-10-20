@@ -25,5 +25,11 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX idx_permissions_user ON permissions(user_id)");
     }
 
-    
+    @Override // android.database.sqlite.SQLiteOpenHelper
+    public void onUpgrade(SQLiteDatabase db, int oldV, int newV) {
+        if (oldV < 3) {
+            db.execSQL("DROP TABLE IF EXISTS transfer_logs");
+            db.execSQL("CREATE TABLE transfer_logs (id TEXT PRIMARY KEY, user_id TEXT, resource_opaque_id TEXT, type TEXT, bytes INTEGER, started_at INTEGER, ended_at INTEGER, status TEXT)");
+        }
+    }
 }
