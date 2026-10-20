@@ -26,4 +26,38 @@ public class SharedResourceDao {
         this.h.getWritableDatabase().insertOrThrow("shared_resources", null, contentValues);
         return strGenerateOpaqueId;
     }
+     public List<SharedResource> listAll() {
+        List<SharedResource> list = new ArrayList<>();
+        Cursor c = this.h.getReadableDatabase().query("shared_resources", null, null, null, null, null, "added_at DESC");
+        while (c.moveToNext()) {
+            try {
+                SharedResource r = new SharedResource();
+                r.opaqueId = c.getString(c.getColumnIndexOrThrow("opaque_id"));
+                r.displayName = c.getString(c.getColumnIndexOrThrow("display_name"));
+                r.safUri = c.getString(c.getColumnIndexOrThrow("saf_uri"));
+                boolean z = true;
+                if (c.getInt(c.getColumnIndexOrThrow("is_folder")) != 1) {
+                    z = false;
+                }
+                r.isFolder = z;
+                r.parentOpaqueId = c.getString(c.getColumnIndexOrThrow("parent_opaque_id"));
+                r.addedAt = c.getLong(c.getColumnIndexOrThrow("added_at"));
+                list.add(r);
+            } catch (Throwable th) {
+                if (c != null) {
+                    try {
+                        c.close();
+                    } catch (Throwable th2) {
+                        th.addSuppressed(th2);
+                    }
+                }
+                throw th;
+            }
+        }
+        if (c != null) {
+            c.close();
+        }
+        return list;
+    }
+
 }
