@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.localshare.domain.model.Session;
 
 /* JADX INFO: loaded from: classes3.dex */
+
 public class SessionDao {
     private final DbHelper helper;
 
@@ -72,4 +73,5 @@ public class SessionDao {
      public void deleteExpired(long now) {
         this.helper.getWritableDatabase().delete("sessions", "expires_at<?", new String[]{String.valueOf(now)});
     }
+
 }
