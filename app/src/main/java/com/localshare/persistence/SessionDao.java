@@ -58,4 +58,9 @@ public class SessionDao {
             throw th;
         }
     }
+
+     public void delete(String idHash) {
+        this.helper.getWritableDatabase().delete("sessions", "id=?", new String[]{idHash});
+    }
+
 }
