@@ -68,4 +68,8 @@ public class SessionDao {
         cv.put("last_seen", Long.valueOf(now));
         this.helper.getWritableDatabase().update("sessions", cv, "id=?", new String[]{idHash});
     }
+
+     public void deleteExpired(long now) {
+        this.helper.getWritableDatabase().delete("sessions", "expires_at<?", new String[]{String.valueOf(now)});
+    }
 }
