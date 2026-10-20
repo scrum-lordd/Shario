@@ -25,5 +25,37 @@ public class SessionDao {
         db.insertOrThrow("sessions", null, cv);
     }
 
-   
+    public Session findById(String idHash) {
+        SQLiteDatabase db = this.helper.getReadableDatabase();
+        Cursor c = db.query("sessions", null, "id=?", new String[]{idHash}, null, null, null);
+        try {
+            if (c.moveToFirst()) {
+                Session s = new Session();
+                s.id = c.getString(c.getColumnIndexOrThrow("id"));
+                s.userId = c.getString(c.getColumnIndexOrThrow("user_id"));
+                s.createdAt = c.getLong(c.getColumnIndexOrThrow("created_at"));
+                s.expiresAt = c.getLong(c.getColumnIndexOrThrow("expires_at"));
+                s.lastSeen = c.getLong(c.getColumnIndexOrThrow("last_seen"));
+                s.ip = c.getString(c.getColumnIndexOrThrow("ip"));
+                if (c != null) {
+                    c.close();
+                }
+                return s;
+            }
+            if (c != null) {
+                c.close();
+                return null;
+            }
+            return null;
+        } catch (Throwable th) {
+            if (c != null) {
+                try {
+                    c.close();
+                } catch (Throwable th2) {
+                    th.addSuppressed(th2);
+                }
+            }
+            throw th;
+        }
+    }
 }
