@@ -59,5 +59,5 @@ public class SharedResourceDao {
         }
         return list;
     }
-
+    public void delete(String opaqueId) {
 }
