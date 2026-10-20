@@ -11,5 +11,7 @@ import java.util.List;
 public class SharedResourceDao {
     private final DbHelper h;
 
-   
+   public SharedResourceDao(DbHelper h) {
+        this.h = h;
+    }
 }
