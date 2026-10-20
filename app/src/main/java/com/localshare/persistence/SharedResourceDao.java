@@ -62,4 +62,5 @@ public class SharedResourceDao {
     public void delete(String opaqueId) {
         this.h.getWritableDatabase().delete("shared_resources", "opaque_id=?", new String[]{opaqueId});
         this.h.getWritableDatabase().delete("permissions", "resource_opaque_id=?", new String[]{opaqueId});
+        }
 }
