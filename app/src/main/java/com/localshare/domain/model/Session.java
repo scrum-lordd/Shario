@@ -8,4 +8,5 @@ public class Session {
     public String ip;
     public long lastSeen;
     public String userId;
+    public String userAgent;
 }

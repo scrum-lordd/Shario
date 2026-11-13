@@ -8,4 +8,5 @@ public class SharedResource {
     public String opaqueId;
     public String parentOpaqueId;
     public String safUri;
+    public long size;
 }

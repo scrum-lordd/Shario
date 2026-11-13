@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Header Row -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBackShared"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconTint="?attr/colorPrimary"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:id="@+id/tvSharedTitle"
+            android:text="Shared Folders &amp; Files"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvSharedCountBadge"
+            android:text="0 items"
+            style="@style/TextAppearance.Material3.LabelMedium"
+            android:textColor="?attr/colorPrimary"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:background="#152563EB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Path / Breadcrumbs -->
+    <TextView
+        android:id="@+id/tvSharedPath"
+        android:text="Location: Root"
+        style="@style/TextAppearance.Material3.LabelSmall"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Subtitle instruction -->
+    <TextView
+        android:id="@+id/tvSharedSubtitle"
+        android:text="These items are shared on your network. Tap any folder to open it and view its contents."
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Empty State -->
+    <TextView
+        android:id="@+id/tvNoShared"
+        android:text="No folders or files are currently shared.\nUse 'Add Folder' or 'Add File' on the main screen to make them available."
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="?android:attr/textColorSecondary"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSharedResources"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:scrollbars="vertical"/>
+
+    <!-- Close Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCloseShared"
+        android:text="Close"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

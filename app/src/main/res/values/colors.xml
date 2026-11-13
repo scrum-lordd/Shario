@@ -1,10 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <!-- Primary Surface Colors (Light Mode) -->
+    <color name="bg_light">#FFFFFF</color>
+    <color name="bg_light_secondary">#F5F5F5</color>
+    <color name="bg_light_card">#FFFFFF</color>
+    <color name="bg_light_card_secondary">#F0F0F0</color>
+
+    <!-- Primary Surface Colors (Dark Mode) -->
+    <color name="bg_dark">#0D0D0D</color>
+    <color name="bg_dark_secondary">#1A1A1A</color>
+    <color name="bg_card">#1E1E1E</color>
+    <color name="bg_card_secondary">#252525</color>
+    <color name="bg_card_elevated">#2A2A2A</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#CCCCCC</color>
+    <color name="text_muted">#888888</color>
+
+    <!-- Action Button Colors (Red/Green/Purple) -->
+    <color name="btn_start">#22C55E</color>
+    <color name="btn_stop">#EF4444</color>
+    <color name="btn_primary">#8B5CF6</color>
+    <color name="btn_primary_dark">#7C3AED</color>
+    <color name="btn_primary_light">#A78BFA</color>
+    <color name="btn_danger">#EF4444</color>
+    <color name="btn_danger_dark">#DC2626</color>
+    <color name="btn_success">#22C55E</color>
+    <color name="btn_success_dark">#16A34A</color>
+
+    <!-- Purple Accents -->
+    <color name="primary_purple">#8B5CF6</color>
+    <color name="primary_purple_dark">#7C3AED</color>
+    <color name="primary_purple_light">#A78BFA</color>
+    <color name="primary_purple_neon">#C084FC</color>
+    <color name="purple_glow">#338B5CF6</color>
+
+    <!-- Status Colors -->
+    <color name="status_online">#22C55E</color>
+    <color name="status_online_bg">#2222C55E</color>
+    <color name="status_offline">#EF4444</color>
+    <color name="status_offline_bg">#20EF4444</color>
+
+    <!-- Borders -->
+    <color name="border_subtle">#333333</color>
+    <color name="border_focused">#8B5CF6</color>
+
+    <!-- Legacy compat names -->
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="purple_200">#C084FC</color>
+    <color name="purple_500">#8B5CF6</color>
+    <color name="purple_700">#7C3AED</color>
+    <color name="teal_200">#A78BFA</color>
+    <color name="teal_700">#8B5CF6</color>
 </resources>

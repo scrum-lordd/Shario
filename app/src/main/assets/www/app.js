@@ -1,4 +1,4 @@
-// Google Drive Replica - LocalShare Client
+// WiShare file sharing client
 let currentFolderId = 'root';
 let currentFiles = [];
 let currentFolders = [];
@@ -141,7 +141,7 @@ async function loadFolder(folderId) {
     showApprovalNotice(false);
 
     // Update breadcrumbs
-    renderBreadcrumbs(data.breadcrumbs || [{ id: 'root', name: 'My Drive' }]);
+    renderBreadcrumbs(data.breadcrumbs || [{ id: 'root', name: 'My Files' }]);
 
     // Separate folders and files
     const items = data.files || [];
@@ -165,7 +165,7 @@ function renderBreadcrumbs(crumbs) {
     const isLast = idx === crumbs.length - 1;
     const a = document.createElement('a');
     a.className = 'bc-chip' + (isLast ? ' active' : '');
-    a.textContent = c.name;
+    a.textContent = c.id === 'root' && c.name === 'My Drive' ? 'My Files' : c.name;
     a.href = '#/folders/' + (c.id === 'root' ? 'root' : c.id);
     container.appendChild(a);
 
@@ -249,7 +249,7 @@ function renderContent() {
           <td>
             <div class="table-actions">
               <button class="btn-row-action btn-preview" title="Open preview">Open</button>
-              <button class="btn-row-action btn-download-row" title="Download in chunks">Download</button>
+              <button class="btn-row-action btn-download-row" title="Download with Browser">Download</button>
             </div>
           </td>
         `;
@@ -259,7 +259,7 @@ function renderContent() {
         };
         tr.querySelector('.btn-download-row').onclick = (e) => {
           e.stopPropagation();
-          startChunkDownload(f);
+          downloadFileNative(f);
         };
         tr.onclick = () => openFilePreview(f);
         filesTableBody.appendChild(tr);
@@ -290,7 +290,7 @@ function renderContent() {
             </div>
             <div class="file-card-footer">
               <span class="file-card-size">${formatBytes(f.size)}</span>
-              <button class="file-card-download-btn btn-card-dl" title="Download in chunks" onclick="event.stopPropagation()">
+              <button class="file-card-download-btn btn-card-dl" title="Download with Browser" onclick="event.stopPropagation()">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                   <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
                 </svg>
@@ -301,7 +301,7 @@ function renderContent() {
 
         card.querySelector('.btn-card-dl').onclick = (e) => {
           e.stopPropagation();
-          startChunkDownload(f);
+          downloadFileNative(f);
         };
         card.onclick = () => openFilePreview(f);
         filesGrid.appendChild(card);
@@ -312,7 +312,7 @@ function renderContent() {
   }
 }
 
-// Google Drive File Preview Modal
+// WiShare file preview
 let activePreviewFile = null;
 
 function openFilePreview(f) {
@@ -346,12 +346,9 @@ function showPreviewModalWithFile(f) {
   icon.textContent = getFileIcon(f.name, f.mime);
   name.textContent = f.name;
   size.textContent = formatBytes(f.size);
-  downloadBtn.href = '/api/download/' + f.id;
+  downloadBtn.href = '/api/download/' + encodeURIComponent(f.id);
   downloadBtn.setAttribute('download', f.name);
-  downloadBtn.onclick = (e) => {
-    e.preventDefault();
-    startChunkDownload(f);
-  };
+  downloadBtn.onclick = null;
 
   body.innerHTML = '';
   const viewUrl = '/api/view/' + f.id;
@@ -482,7 +479,7 @@ function showPreviewModalWithFile(f) {
     });
 
     container.querySelectorAll('.btn-chunk-dl-trigger').forEach(btn => {
-      btn.onclick = () => startChunkDownload(f);
+      btn.onclick = () => downloadFileNative(f);
     });
 
     body.appendChild(container);
@@ -497,11 +494,11 @@ function showPreviewModalWithFile(f) {
       <audio controls autoplay src="${viewUrl}"></audio>
       <div class="preview-bottom-actions" style="margin-top:16px;">
         <button class="btn-preview-action btn-chunk-dl-trigger" style="color:var(--drive-text); background:#f0f4f9;">
-          ⬇ Resumable Download
+          ⬇ Download
         </button>
       </div>
     `;
-    wrap.querySelector('.btn-chunk-dl-trigger').onclick = () => startChunkDownload(f);
+    wrap.querySelector('.btn-chunk-dl-trigger').onclick = () => downloadFileNative(f);
     body.appendChild(wrap);
   } else if (isPdf(f.name, f.mime)) {
     const container = document.createElement('div');
@@ -513,11 +510,11 @@ function showPreviewModalWithFile(f) {
           ↗ Open in New Window
         </a>
         <button class="btn-preview-action btn-chunk-dl-trigger">
-          ⬇ Resumable Download
+          ⬇ Download
         </button>
       </div>
     `;
-    container.querySelector('.btn-chunk-dl-trigger').onclick = () => startChunkDownload(f);
+    container.querySelector('.btn-chunk-dl-trigger').onclick = () => downloadFileNative(f);
     body.appendChild(container);
   } else if (isText(f.name, f.mime)) {
     const pre = document.createElement('pre');
@@ -535,9 +532,9 @@ function showPreviewModalWithFile(f) {
       <div class="generic-icon">${getFileIcon(f.name, f.mime)}</div>
       <div class="generic-title">${escapeHtml(f.name)}</div>
       <div class="generic-desc">${formatBytes(f.size)} • No preview available</div>
-      <button class="modal-btn-download btn-chunk-dl-trigger" style="margin-top:12px; border:none; cursor:pointer;">Resumable Download</button>
+      <button class="modal-btn-download btn-chunk-dl-trigger" style="margin-top:12px; border:none; cursor:pointer;">Download</button>
     `;
-    box.querySelector('.btn-chunk-dl-trigger').onclick = () => startChunkDownload(f);
+    box.querySelector('.btn-chunk-dl-trigger').onclick = () => downloadFileNative(f);
     body.appendChild(box);
   }
 
@@ -559,63 +556,24 @@ function closePreviewModal(updateHash = true) {
   }
 }
 
-// Resumable Chunk Download Manager
-const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB chunks
-
-let activeDownload = {
-  fileId: null,
-  fileName: '',
-  fileSize: 0,
-  mime: '',
-  downloadedBytes: 0,
-  chunks: [],
-  state: 'IDLE', // 'IDLE' | 'DOWNLOADING' | 'PAUSED' | 'STOPPED' | 'COMPLETED'
-  abortController: null,
-  isLoopRunning: false,
-  lastTime: 0,
-  lastBytes: 0,
-  speed: 0
-};
+// Direct Native Browser Download Handover
+function downloadFileNative(f) {
+  if (!f) return;
+  const id = typeof f === 'object' ? f.id : f;
+  const name = typeof f === 'object' ? f.name : '';
+  if (!id) return;
+  const a = document.createElement('a');
+  a.href = '/api/download/' + encodeURIComponent(id);
+  if (name) {
+    a.setAttribute('download', name);
+  }
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 function startChunkDownload(f) {
-  if (!f || !f.id) return;
-
-  if (activeDownload.state === 'DOWNLOADING' && activeDownload.fileId === f.id) {
-    showDownloadDrawer(true);
-    return;
-  }
-
-  if (activeDownload.state === 'DOWNLOADING') {
-    stopChunkDownload();
-  }
-
-  activeDownload.fileId = f.id;
-  activeDownload.fileName = f.name || 'download';
-  activeDownload.fileSize = f.size || 0;
-  activeDownload.mime = f.mime || 'application/octet-stream';
-  activeDownload.downloadedBytes = 0;
-  activeDownload.chunks = [];
-  activeDownload.state = 'DOWNLOADING';
-  activeDownload.lastTime = performance.now();
-  activeDownload.lastBytes = 0;
-  activeDownload.speed = 0;
-
-  showDownloadDrawer(true);
-  updateDrawerUI();
-
-  if (activeDownload.fileSize <= 0) {
-    const a = document.createElement('a');
-    a.href = '/api/download/' + f.id;
-    a.download = f.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    activeDownload.state = 'COMPLETED';
-    updateDrawerUI();
-    return;
-  }
-
-  runDownloadLoop();
+  downloadFileNative(f);
 }
 
 async function runDownloadLoop() {

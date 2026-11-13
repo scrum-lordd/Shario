@@ -43,8 +43,8 @@ public class AccessRequestNotifier {
     public static void createNotificationChannel(Context context) {
         NotificationManager nm = (NotificationManager) context.getSystemService(NotificationManager.class);
         if (nm != null) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_REQUESTS, "Access Requests", 4);
-            channel.setDescription("Alerts when new users request access to shared files");
+            NotificationChannel channel = new NotificationChannel(CHANNEL_REQUESTS, "WiShare Access Requests", 4);
+            channel.setDescription("Alerts when new users request access to WiShare shared files");
             channel.enableVibration(true);
             channel.setShowBadge(true);
             nm.createNotificationChannel(channel);
@@ -102,7 +102,7 @@ public class AccessRequestNotifier {
             denyIntent.putExtra(EXTRA_USER_ID, userId);
             denyIntent.putExtra(EXTRA_USERNAME, username);
             PendingIntent denyPending = PendingIntent.getBroadcast(context, (notifId * 3) + 2, denyIntent, 201326592);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_REQUESTS).setSmallIcon(R.drawable.ic_dialog_info).setContentTitle("New Access Request").setContentText(username + " is requesting access to shared files").setStyle(new NotificationCompat.BigTextStyle().bigText("User '" + username + "' wants access to your shared files. You can approve or decline right here.")).setPriority(1).setCategory(NotificationCompat.CATEGORY_STATUS).setAutoCancel(true).setContentIntent(openPending).addAction(R.drawable.ic_menu_add, "Approve", approvePending).addAction(R.drawable.ic_menu_close_clear_cancel, "Decline", denyPending);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_REQUESTS).setSmallIcon(com.localshare.R.mipmap.ic_launcher).setContentTitle("WiShare • Access Request").setContentText(username + " is requesting access to shared files").setStyle(new NotificationCompat.BigTextStyle().bigText("User '" + username + "' wants access to your shared files. You can approve or decline right here.")).setPriority(1).setCategory(NotificationCompat.CATEGORY_STATUS).setAutoCancel(true).setContentIntent(openPending).addAction(R.drawable.ic_menu_add, "Approve", approvePending).addAction(R.drawable.ic_menu_close_clear_cancel, "Decline", denyPending);
             NotificationManagerCompat.from(context).notify(notifId, builder.build());
         } catch (SecurityException se) {
             se.printStackTrace();
