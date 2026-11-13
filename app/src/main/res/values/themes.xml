@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme: Dark (black bg, white text, purple accent) -->
+    <style name="Theme.LocalShare" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/primary_purple</item>
+        <item name="colorPrimaryVariant">@color/primary_purple_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/primary_purple_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/bg_card</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+        <item name="android:colorBackground">@color/bg_dark</item>
+        <item name="colorOnBackground">@color/text_primary_dark</item>
+        <item name="colorError">@color/btn_danger</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="android:statusBarColor">@color/bg_dark</item>
+        <item name="android:navigationBarColor">@color/bg_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- Light theme variant -->
+    <style name="Theme.LocalShare.Light" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_purple</item>
+        <item name="colorPrimaryVariant">@color/primary_purple_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/primary_purple_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/bg_light_card</item>
+        <item name="colorOnSurface">@color/text_primary_light</item>
+        <item name="android:colorBackground">@color/bg_light</item>
+        <item name="colorOnBackground">@color/text_primary_light</item>
+        <item name="colorError">@color/btn_danger</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="android:statusBarColor">@color/bg_light</item>
+        <item name="android:navigationBarColor">@color/bg_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Button styles -->
+    <style name="Widget.WiShare.Button.Purple" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/btn_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+    <style name="Widget.WiShare.Button.Green" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/btn_start</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+    <style name="Widget.WiShare.Button.Red" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/btn_stop</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+</resources>

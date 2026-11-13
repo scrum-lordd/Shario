@@ -1,42 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="12dp"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/bg_card_secondary"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/border_subtle"
+    app:strokeWidth="1dp">
+
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <TextView
-            android:textStyle="bold"
-            android:id="@+id/tvUsername"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/ic_person"
+            android:padding="6dp"
+            android:background="@drawable/bg_pill_purple"
+            app:tint="@color/primary_purple"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="User" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAllow"
+            android:text="Allow"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/primary_purple"
+            app:cornerRadius="8dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.Material3.BodyLarge"/>
-        <TextView
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/tvTime"
+            android:layout_height="38dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="14dp"
+            android:layout_marginEnd="6dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeny"
+            android:text="Deny"
+            android:textSize="12sp"
+            android:textColor="#EF4444"
+            app:strokeColor="#EF4444"
+            app:strokeWidth="1dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:cornerRadius="8dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.Material3.BodySmall"/>
+            android:layout_height="38dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="14dp"/>
     </LinearLayout>
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAllow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="0dp"
-        android:text="Allow"
-        android:layout_marginEnd="8dp"
-        android:paddingHorizontal="16dp"/>
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDeny"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="0dp"
-        android:text="Deny"
-        android:paddingHorizontal="16dp"
-        style="@style/Widget.Material3.Button.OutlinedButton"/>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

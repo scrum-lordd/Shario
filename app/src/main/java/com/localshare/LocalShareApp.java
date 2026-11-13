@@ -1,13 +1,14 @@
 package com.localshare;
-
 import android.app.Application;
 import com.localshare.persistence.DbHelper;
 
-/* JADX INFO: loaded from: classes11.dex */
 public class LocalShareApp extends Application {
-    @Override // android.app.Application
-    public void onCreate() {
+    @Override public void onCreate(){
         super.onCreate();
+        // apply theme
+        com.localshare.util.AppPreferences.applyTheme(com.localshare.util.AppPreferences.getTheme(this));
+        // init db
         new DbHelper(this).getWritableDatabase().close();
     }
 }
+

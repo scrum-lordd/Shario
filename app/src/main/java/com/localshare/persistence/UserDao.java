@@ -5,95 +5,97 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.localshare.domain.model.User;
 
-/* JADX INFO: loaded from: classes3.dex */
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDao {
     private final DbHelper helper;
+    public UserDao(DbHelper h){ helper = h; }
 
-    public UserDao(DbHelper h) {
-        this.helper = h;
+    public void insert(User u){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("id", u.id); 
+        cv.put("username", u.username); 
+        cv.put("password_hash", u.passwordHash);
+        cv.put("plain_password", u.plainPassword);
+        cv.put("created_at", u.createdAt); 
+        cv.put("is_approved", u.isApproved ? 1 : 0);
+        cv.put("blocked_until", u.blockedUntil);
+        db.insertOrThrow("users", null, cv);
     }
 
-    public void insert(User user) {
-        SQLiteDatabase writableDatabase = this.helper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("id", user.id);
-        contentValues.put("username", user.username);
-        contentValues.put("password_hash", user.passwordHash);
-        contentValues.put("created_at", Long.valueOf(user.createdAt));
-        contentValues.put("is_approved", Integer.valueOf(user.isApproved ? 1 : 0));
-        writableDatabase.insertOrThrow("users", null, contentValues);
+    public List<User> listAll(){
+        List<User> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        try(Cursor c = db.query("users", null, null, null, null, null, "created_at DESC")){
+            while(c.moveToNext()){
+                list.add(fromCursor(c));
+            }
+        }
+        return list;
     }
 
-    public User findByUsername(String username) {
-        SQLiteDatabase db = this.helper.getReadableDatabase();
-        Cursor c = db.query("users", null, "username=?", new String[]{username}, null, null, null);
-        try {
-            if (c.moveToFirst()) {
-                User userFromCursor = fromCursor(c);
-                if (c != null) {
-                    c.close();
-                }
-                return userFromCursor;
-            }
-            if (c != null) {
-                c.close();
-                return null;
-            }
-            return null;
-        } catch (Throwable th) {
-            if (c != null) {
-                try {
-                    c.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-            }
-            throw th;
+    public User findByUsername(String username){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        try(Cursor c = db.query("users", null, "username=?", new String[]{username}, null, null, null)){
+            if(!c.moveToFirst()) return null;
+            return fromCursor(c);
         }
     }
 
-    public User findById(String id) {
-        SQLiteDatabase db = this.helper.getReadableDatabase();
-        Cursor c = db.query("users", null, "id=?", new String[]{id}, null, null, null);
-        try {
-            if (c.moveToFirst()) {
-                User userFromCursor = fromCursor(c);
-                if (c != null) {
-                    c.close();
-                }
-                return userFromCursor;
-            }
-            if (c != null) {
-                c.close();
-                return null;
-            }
-            return null;
-        } catch (Throwable th) {
-            if (c != null) {
-                try {
-                    c.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-            }
-            throw th;
+    public User findById(String id){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        try(Cursor c = db.query("users", null, "id=?", new String[]{id}, null, null, null)){
+            if(!c.moveToFirst()) return null;
+            return fromCursor(c);
         }
     }
 
-    private User fromCursor(Cursor c) {
+    private User fromCursor(Cursor c){
         User u = new User();
         u.id = c.getString(c.getColumnIndexOrThrow("id"));
         u.username = c.getString(c.getColumnIndexOrThrow("username"));
         u.passwordHash = c.getString(c.getColumnIndexOrThrow("password_hash"));
+        
+        int plainIdx = c.getColumnIndex("plain_password");
+        if(plainIdx >= 0){
+            u.plainPassword = c.getString(plainIdx);
+        }
+
         u.createdAt = c.getLong(c.getColumnIndexOrThrow("created_at"));
         u.isApproved = c.getInt(c.getColumnIndexOrThrow("is_approved")) == 1;
+
+        int blockedIdx = c.getColumnIndex("blocked_until");
+        if(blockedIdx >= 0){
+            u.blockedUntil = c.getLong(blockedIdx);
+        }
         return u;
     }
 
-    public void setApproved(String str, boolean z) {
-        SQLiteDatabase writableDatabase = this.helper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("is_approved", Integer.valueOf(z ? 1 : 0));
-        writableDatabase.update("users", contentValues, "id=?", new String[]{str});
+    public void setApproved(String id, boolean approved){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues cv = new ContentValues(); 
+        cv.put("is_approved", approved ? 1 : 0);
+        db.update("users", cv, "id=?", new String[]{id});
+    }
+
+    public void setBlockedUntil(String id, long blockedUntil){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues cv = new ContentValues(); 
+        cv.put("blocked_until", blockedUntil);
+        db.update("users", cv, "id=?", new String[]{id});
+        if(blockedUntil != 0){
+            // Invalidate all active sessions for this user immediately
+            db.delete("sessions", "user_id=?", new String[]{id});
+        }
+    }
+
+    public void delete(String id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete("users", "id=?", new String[]{id});
+        db.delete("sessions", "user_id=?", new String[]{id});
+        db.delete("access_requests", "user_id=?", new String[]{id});
+        db.delete("permissions", "user_id=?", new String[]{id});
     }
 }

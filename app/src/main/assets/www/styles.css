@@ -1,27 +1,27 @@
 :root {
-  --drive-bg: #f8fafd;
-  --drive-surface: #ffffff;
-  --drive-sidebar: #f0f4f9;
-  --drive-border: #e0e2e5;
-  --drive-text: #1f1f1f;
-  --drive-text-secondary: #444746;
-  --drive-text-muted: #70757a;
-  --drive-blue: #0b57d0;
-  --drive-blue-hover: #0842a0;
-  --drive-blue-light: #c2e7ff;
-  --drive-blue-bg: #e8f0fe;
-  --drive-card-bg: #f8fafd;
-  --drive-card-border: #e3e3e3;
-  --drive-card-hover: #edf2fa;
-  --drive-search-bg: #e9eef6;
-  --drive-search-focus: #ffffff;
+  --drive-bg: #0b0a12;
+  --drive-surface: #141221;
+  --drive-sidebar: #0f0e1a;
+  --drive-border: #26223d;
+  --drive-text: #ffffff;
+  --drive-text-secondary: #a1a1aa;
+  --drive-text-muted: #71717a;
+  --drive-blue: #8b5cf6;
+  --drive-blue-hover: #7c3aed;
+  --drive-blue-light: #2b2347;
+  --drive-blue-bg: #1e1833;
+  --drive-card-bg: #161426;
+  --drive-card-border: #2d284d;
+  --drive-card-hover: #221e3b;
+  --drive-search-bg: #1c1833;
+  --drive-search-focus: #252044;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-pill: 9999px;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md: 0 2px 6px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
 }
 
 * {
